@@ -11,11 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.bds02.dto.CityDTO;
-import com.devsuperior.bds02.dto.EventDTO;
 import com.devsuperior.bds02.entities.City;
-import com.devsuperior.bds02.entities.Event;
 import com.devsuperior.bds02.repositories.CityRepository;
-import com.devsuperior.bds02.repositories.EventRepository;
 import com.devsuperior.bds02.services.exceptions.DatabaseException;
 import com.devsuperior.bds02.services.exceptions.ResourceNotFoundException;
 
@@ -25,9 +22,6 @@ public class CityService {
 	
 	@Autowired
 	private CityRepository cityRepository;
-	
-	@Autowired
-	private EventRepository eventRepository;
 	
 	@Transactional(readOnly = true)
 	public List<CityDTO> findAll() {
@@ -58,13 +52,5 @@ public class CityService {
 	
 	private void copyDtoToEntity(CityDTO dto, City entity) {
 		entity.setName(dto.getName());
-		
-		entity.getEvents().clear();
-		for (EventDTO eventDto : dto.getEvents()) {
-			Event event = eventRepository.getOne(eventDto.getId());
-			entity.getEvents().add(event);
-		}
 	}
-		
-	
 }

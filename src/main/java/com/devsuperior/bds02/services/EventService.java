@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.bds02.dto.EventDTO;
 import com.devsuperior.bds02.entities.Event;
+import com.devsuperior.bds02.repositories.CityRepository;
 import com.devsuperior.bds02.repositories.EventRepository;
 import com.devsuperior.bds02.services.exceptions.ResourceNotFoundException;
 
@@ -18,6 +19,9 @@ public class EventService {
 	
 	@Autowired
 	private EventRepository eventRepository;
+	
+	@Autowired
+	private CityRepository cityRepository;
 
 	@Transactional
 	public EventDTO update(EventDTO dto, Long id) {
@@ -36,6 +40,6 @@ public class EventService {
 		entity.setName(dto.getName());
 		entity.setDate(dto.getDate());
 		entity.setUrl(dto.getUrl());
-		entity.getCity().setId(dto.getCityId());
+		entity.setCity(cityRepository.getOne(dto.getCityId()));
 	}
 }
